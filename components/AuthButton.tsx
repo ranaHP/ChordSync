@@ -8,26 +8,6 @@ export function GoogleSignInButton() {
   );
 }
 
-export function DemoSignInButton() {
-  return (
-    <form
-      action={async (formData) => {
-        "use server";
-        await signIn("credentials", {
-          email: String(formData.get("email") || ""),
-          password: String(formData.get("password") || ""),
-          redirectTo: "/dashboard"
-        });
-      }}
-      className="space-y-3"
-    >
-      <input className="input" name="email" type="email" placeholder="Demo email" required />
-      <input className="input" name="password" type="password" placeholder="Demo password" required />
-      <button className="stage-button w-full" type="submit">Login with demo account</button>
-    </form>
-  );
-}
-
 export function SignOutButton() {
   return (
     <form action={async () => { "use server"; await signOut({ redirectTo: "/" }); }}>
