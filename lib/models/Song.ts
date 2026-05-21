@@ -11,5 +11,5 @@ const SongSchema = new Schema({
   lyricsWithChords: { type: String, required: true },
   tags: [{ type: String, index: true }]
 }, { timestamps: true });
-SongSchema.index({ title: "text", singer: "text", tags: "text" }, { default_language: "none", language_override: "_textLanguage" });
+SongSchema.index({ title: "text", singer: "text", tags: "text" });
 export default models.Song || model("Song", SongSchema);

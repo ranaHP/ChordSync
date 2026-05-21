@@ -13,7 +13,7 @@ ChordSync is a production-ready full-stack Next.js App Router application for li
 
 ## Features
 
-- Google login/register + demo credentials login with MongoDB user profiles
+- Google login/register with MongoDB user profiles
 - Group creation, owner/admin/member roles, member search by email/name
 - Song library with search and filters-ready API fields
 - Shared group queue with current/upcoming states and admin/controller controls
@@ -44,8 +44,6 @@ NEXTAUTH_URL=http://localhost:3000
 AUTH_SECRET=replace-with-openssl-rand-base64-32
 AUTH_GOOGLE_ID=...
 AUTH_GOOGLE_SECRET=...
-DEMO_USER_EMAIL=demo@chordsync.local
-DEMO_USER_PASSWORD=demo12345
 MONGODB_URI=mongodb://127.0.0.1:27017/chordsync
 PUSHER_APP_ID=...
 PUSHER_SECRET=...
