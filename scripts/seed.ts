@@ -31,7 +31,6 @@ function sheet(title: string, key: string) {
 
 async function main() {
   await dbConnect();
-  await Song.syncIndexes();
   await Song.deleteMany({});
   await Song.insertMany(templates.map(([title, singer, language, category, type, key, tempo, tags]) => ({ title, singer, language, category, type, key, tempo, tags, lyricsWithChords: sheet(title, key) })));
   console.log(`Seeded ${templates.length} original placeholder songs.`);
