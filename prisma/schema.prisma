@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ownedGroups Group[]      @relation("GroupOwner")
+  memberships GroupMember[]
+  queueItems  QueueItem[]  @relation("QueueAddedBy")
+  controls    SessionState[] @relation("SessionController")
+}
+
+model Group {
+  id          String   @id @default(cuid())
+  name        String
+  description String   @default("")
+  ownerId     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner       User         @relation("GroupOwner", fields: [ownerId], references: [id])
+  members     GroupMember[]
+  queue       QueueItem[]
+  session     SessionState?
+}
+
+model GroupMember {
+  id       String   @id @default(cuid())
+  groupId  String
+  userId   String
+  role     String   @default("member")
+  joinedAt DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  group Group @relation(fields: [groupId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
+
+  @@unique([groupId, userId])
+}
+
+model Song {
+  id               String   @id @default(cuid())
+  title            String
+  singer           String
+  language         String
+  category         String
+  type             String
+  key              String
+  tempo            Int
+  lyricsWithChords String   @db.LongText
+  tags             String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model QueueItem {
+  id        String   @id @default(cuid())
+  groupId   String
+  songId    String
+  addedById String
+  order     Int
+  status    String   @default("upcoming")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  group   Group @relation(fields: [groupId], references: [id])
+  song    Song  @relation(fields: [songId], references: [id])
+  addedBy User  @relation("QueueAddedBy", fields: [addedById], references: [id])
+}
+
+model SessionState {
+  id                String   @id @default(cuid())
+  groupId            String   @unique
+  currentQueueItemId String?
+  controllerId       String?
+  scrollPercent      Float    @default(0)
+  isActive           Boolean  @default(false)
+  endingAt           DateTime?
+  controlRequests    Json?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  group      Group     @relation(fields: [groupId], references: [id])
+  controller User?     @relation("SessionController", fields: [controllerId], references: [id])
+  currentQueueItem QueueItem? @relation(fields: [currentQueueItemId], references: [id])
+}

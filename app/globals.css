@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+html { scroll-behavior: smooth; }
+body { @apply min-h-screen bg-stage-radial text-white antialiased; }
+* { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.25) transparent; }
+.stage-card { @apply rounded-3xl border border-white/10 bg-white/[.07] shadow-glow backdrop-blur-xl; }
+.stage-button { @apply rounded-full bg-white px-5 py-3 font-semibold text-stage-950 transition hover:scale-[1.02] hover:bg-neon-amber disabled:cursor-not-allowed disabled:opacity-50; }
+.stage-button-secondary { @apply rounded-full border border-white/15 bg-white/10 px-5 py-3 font-semibold text-white transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50; }
+.input { @apply w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white placeholder:text-white/40 outline-none focus:border-neon-blue; }
+.chord-line { @apply font-mono text-neon-amber; }
+.lyric-line { @apply text-white/90; }
